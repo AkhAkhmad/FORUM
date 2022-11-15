@@ -1,13 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
-from service.models import Post, Comment
-from .forms import PostForm, CommentForm
-from django.urls import reverse_lazy
+from .forms import PostForm, CommentForm, MessageForm
 from django.shortcuts import render, redirect
+from service.models import Post, Comment
+from django.core.mail import send_mail
+from django.urls import reverse_lazy
 from .forms import UserRegisterForm
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
+from django.conf import settings
 
 
 class RegisterForm(SuccessMessageMixin, CreateView):
@@ -24,7 +26,20 @@ def index(req):
 
 
 def about(req):
-    return render(req, 'about.html')
+    form = MessageForm()
+    if req.method == 'POST':
+        form = MessageForm(req.POST)
+        if form.is_valid():
+            subject = form.cleaned_data.get('title')
+            body = form.cleaned_data.get('body')
+            try:
+                send_mail(subject, body, settings.EMAIL_HOST_USER, ['deltumumle@gufum.com'], fail_silently=False)
+                form.save()
+            except Exception as err:
+                print(str(err))
+            messages.success(req, f'Subject - {subject} and  body - {body} send successfully')
+            return redirect('about')
+    return render(req, 'about.html', {'form': form})
 
 
 class ListPostView(ListView):

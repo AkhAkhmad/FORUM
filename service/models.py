@@ -26,3 +26,11 @@ class Comment(models.Model):
 
     def get_absolute_url(self):
         return reverse('index')
+
+
+class Message(models.Model):
+    title = models.CharField(verbose_name='Subject', max_length=50, null=True, blank=True)
+    body = models.TextField(verbose_name='Body')
+
+    def __str__(self):
+        return f'{self.body}'
