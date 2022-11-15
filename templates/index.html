@@ -9,9 +9,39 @@
     <title>Forum</title>
 </head>
 <body>
-    {% block content %}
-        <h1>Forum</h1>
-    {% endblock %}
+    {% include 'navbar.html' %}
+    <div class="container">
+        {% block content %}
+            <h1>Forum</h1>
+            <a href="{% url 'create_post' %}" class="btn btn-primary btn-block">Create New Post</a>
+              <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% if object_list %}
+                  {% for post in object_list %}
+                  <tr>
+                    <td><a href="{% url 'detail_post' post.pk %}">{{ post.title }}</a></td>
+                    <td>{{ post.description }}</td>
+                    <th scope="row">{{ post.created_at }}</th>
+                    <td><a href="{% url 'update_post' post.pk %}" class="btn btn-primary">Edit</a></td>
+                    <td><a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a></td>
+                  </tr>
+                {% endfor %}
+                {% else %}
+                  <p>No Posts</p>
+                {% endif %}
+                </tbody>
+              </table>
+        {% endblock %}
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

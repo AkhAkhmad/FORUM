@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+{% block content %}
+    <h1>Detail Post</h1>
+    <p>{{ post.title }}</p>
+    <p>{{ post.description }}</p>
+    <p>{{ post.created_at }}</p>
+    <hr>
+    {% if post.image %}
+      <img src="{{ post.image.url }}" width="400px">
+    {% else %}
+      <p>No Image</p>
+    {% endif %}
+    <hr>
+    <a href="{% url 'update_post' post.pk %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'add_comment' post.pk %}" class="btn btn-info">Add comment</a>
+    {% if post.comments.all %}
+        {% for comment in post.comments.all %}
+            <hr>
+            <p>{{ comment.description }}</p>
+            <p>{{ comment.created_at }}</p>
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>No Comments</p>
+    {% endif %}
+{% endblock %}
