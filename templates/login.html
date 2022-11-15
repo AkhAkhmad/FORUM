@@ -2,6 +2,13 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1>Login Page</h1>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
     <form method="POST">
       {% csrf_token %}
       {{ form|crispy }}
