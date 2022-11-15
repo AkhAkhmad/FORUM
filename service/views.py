@@ -2,14 +2,18 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.files.storage import FileSystemStorage  # save files in folder media
 from .forms import PostForm, CommentForm, MessageForm
 from django.shortcuts import render, redirect
 from service.models import Post, Comment
 from django.core.mail import send_mail
 from django.urls import reverse_lazy
+from django.http import HttpResponse
 from .forms import UserRegisterForm
 from django.contrib import messages
 from django.conf import settings
+import datetime
+import csv
 
 
 class RegisterForm(SuccessMessageMixin, CreateView):
@@ -97,3 +101,24 @@ class AddCommentView(LoginRequiredMixin, CreateView):
     # def form_valid(self, form):
     #     form.instanсe.post_id = self.kwargs('pk')  # присваевает ключ из передаваемого параметра
     #     return super().form_valid(form)
+
+
+def upload(req):
+    context = {}
+    if req.method == 'POST':
+        uploaded_file = req.FILES['file']  # this name = name template
+        file = FileSystemStorage()
+        url = file.save(uploaded_file.name, uploaded_file)
+        context['url'] = file.url(url)
+    return render(req, 'upload.html', context)
+
+
+def download(req):
+    response = HttpResponse(content_type='text/csv')
+    writer = csv.writer(response)
+    writer.writerow(['title', 'description', 'created_at'])
+    for row in Post.objects.all().values_list('title', 'description', 'created_at'):
+        writer.writerow(row)
+        filename = str(datetime.datetime.now())
+    response['Content-Disposition'] = f'attachment; filename={filename}'
+    return response

@@ -26,7 +26,13 @@
                 {% endif %}
               {% endfor %}
             {% endif %}
-            <a href="{% url 'create_post' %}" class="btn btn-primary btn-block">Create New Post</a>
+            {% if user.is_superuser or user.is_staff %}
+              <a href="{% url 'create_post' %}" class="btn btn-primary btn-block">Create New Post</a>
+              <a href="{% url 'upload' %}" class="btn btn-primary btn-block">Upload File</a>
+              <a href="{% url 'download' %}" class="btn btn-primary btn-block">Download Post</a>
+              <br>
+              <br>
+            {% endif %}
               <table class="table table-dark">
                 <thead>
                   <tr>
