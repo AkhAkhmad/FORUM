@@ -95,7 +95,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'  # для декоратора, которой ограничивает доступ. Если нет аккаунта, он переведет на страницу с URL указанным в этой константе
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
