@@ -9,9 +9,11 @@ class CheckboxSerializer(serializers.ModelSerializer):
 
 
 class DataSerializer(serializers.Serializer):
-    title = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-    attr = serializers.JSONField(required=False)
-    type = serializers.CharField()
+    # title = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    # attr = serializers.JSONField(required=False)
+    # type = serializers.CharField()
+    val_1 = serializers.IntegerField()
+    val_2 = serializers.IntegerField()
 
     @staticmethod
     def validated_type(type):
