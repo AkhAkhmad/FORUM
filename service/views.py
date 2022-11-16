@@ -42,12 +42,12 @@ def about(req):
             except Exception as err:
                 print(str(err))
             messages.success(req, f'Subject - {subject} and  body - {body} send successfully')
-            return redirect('about')
+            return redirect('index')
     return render(req, 'about.html', {'form': form})
 
 
 class ListPostView(ListView):
-    login_url = 'login'
+    # login_url = 'login'
     model = Post
     template_name = 'index.html'
     ordering = ['-created_at']
