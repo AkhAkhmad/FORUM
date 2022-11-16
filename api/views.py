@@ -11,4 +11,3 @@ class CheckboxList(generics.ListCreateAPIView):
 class CheckboxDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Checkbox.objects.all()
     serializer_class = CheckboxSerializer
-
