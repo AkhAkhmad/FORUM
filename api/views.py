@@ -4,6 +4,9 @@ from rest_framework import generics
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.response import Response
+import logging
+
+logger = logging.getLogger('django')
 
 
 class CheckboxList(generics.ListCreateAPIView):
@@ -12,7 +15,10 @@ class CheckboxList(generics.ListCreateAPIView):
 
     @action(detail=FutureWarning, methods=['get'])
     def limit(self, reg, pk=None):
-        params = reg.query_params
+        try:
+            params = reg.query_params
+        except:
+            logger.info('Params: %s', params)
         return Response({'result': params})
 
 
