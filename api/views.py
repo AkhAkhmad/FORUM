@@ -1,9 +1,6 @@
 from api.models import Checkbox
 from api.serializers import CheckboxSerializer
-from rest_framework import status, permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import generics, mixins
+from rest_framework import generics
 
 
 class CheckboxList(generics.ListCreateAPIView):
