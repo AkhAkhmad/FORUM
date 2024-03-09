@@ -60,7 +60,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'forum',
         'USER': 'postgres',
-        'PASSWORD': 'Akh.kha.78',
+        'PASSWORD': '',
         'HOST': 'localhost',
     }
 }
